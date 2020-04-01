@@ -9,9 +9,11 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const authRoutes = require('./routes/public/authRoutes');
+const mainRoute = require('./routes/private/mainRoute');
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/expressauth', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -48,6 +50,21 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
+
+
+// public routes
+app.use('/auth', authRoutes);
+
+
+// private route middleware
+app.use((req, res, next) => {
+  if (req.session.loggedUser) {
+    next();
+    return;
+  }
+
+  res.redirect('/auth/login');
+});
 
 
 

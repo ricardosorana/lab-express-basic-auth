@@ -1,0 +1,13 @@
+<div>
+  <form action="/auth/signup" method="POST">
+    <input type="text" name="username" placeholder="Digite o nome de usuário">
+    <input type="password" name="password" placeholder="Digite a senha">
+
+    <button type="submit">Criar minha conta</button>
+  </form>
+  <div>
+    {{#if errorMessage}}
+      <span>{{errorMessage}}</span>
+    {{/if}}
+  </div>
+</div>
